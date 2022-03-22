@@ -75,6 +75,6 @@ TEST_CASE("erase function") {
     nb5.write(0, 0, 0, Direction::Horizontal, "Let's check the erase function");
     nb5.erase(0, 0, 0, Direction::Horizontal, 20);
     CHECK(nb5.read(0, 0, 0, Direction::Vertical, 30) == "Let's check the erase function");
-    CHECK(nb5.read(0, 0, 0, Direction::Vertical, 20) == "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    CHECK(nb5.read(0, 0, 0, Direction::Vertical, 20) == "~~~~~~~~~~~~~~~~~~~~");
     CHECK(nb5.read(0, 0, 20, Direction::Vertical, 10) == "e function");
 }
