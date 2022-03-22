@@ -12,12 +12,12 @@ namespace ariel {
 	private:
 		unordered_map<int, Page> pages;
 	public:
-		void write(unsigned int page, unsigned int row, unsigned int column, Direction direction, string to_write) {}
-		string read(unsigned int page, unsigned int row, unsigned int column, Direction direction, unsigned int number_of_chars) {
+		void write(int page, int row, int column, Direction direction, string to_write) {}
+		string read(int page, int row, int column, Direction direction, int number_of_chars) {
 			return "";
 		}
-		void erase(unsigned int page,unsigned int row,unsigned int column, Direction direction,unsigned int number_of_chars){}
-		string show(unsigned int page) {
+		void erase(int page, int row, int column, Direction direction, int number_of_chars){}
+		string show(int page) {
 			return "";
 		}
 	};

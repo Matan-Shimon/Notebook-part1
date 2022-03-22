@@ -17,7 +17,7 @@ TEST_CASE("TEST for write and read functions: good horizontal") {
     nb1.write(0, 10, 0, Direction::Horizontal, "now let's check in the middle");
     CHECK(nb1.read(0, 10, 16, Direction::Horizontal, 13) == "in the middle");
     string output;
-    for (unsigned int i = 65; i < 123; i++) {
+    for (int i = 65; i < 123; i++) {
         char ch = i;
         string tmp_string(1, ch);
         nb1.write(1, 0, i-65, Direction::Horizontal, tmp_string);
@@ -36,7 +36,7 @@ TEST_CASE("TEST for write and read functions: good vertical") {
     nb2.write(0, 10, 0, Direction::Vertical, "now let's check in the middle");
     CHECK(nb2.read(0, 10, 16, Direction::Vertical, 13) == "in the middle");
     string output;
-    for (unsigned int i = 65; i < 123; i++) {
+    for (int i = 65; i < 123; i++) {
         char ch = i;
         string tmp_string(1, ch);
         nb2.write(1, 0, i - 65, Direction::Vertical, tmp_string);
@@ -63,12 +63,30 @@ TEST_CASE("TEST write function:: invalid writing") {
     Notebook nb4;
     nb4.write(0, 0, 0, Direction::Horizontal, "Let's check if an error will occur if we'll write again");
     nb4.write(1, 0, 0, Direction::Vertical, "Let's check if an error will occur if we'll write again");
-    for (unsigned int i = 0; i < 55; ++i) {
+    for (int i = 0; i < 55; ++i) {
         CHECK_THROWS(nb4.write(0, 0, i, Direction::Horizontal, "something"));
         CHECK_THROWS(nb4.write(1, 0, i, Direction::Vertical, "something"));
     }
     CHECK_THROWS(nb4.write(2, 0, 0, Direction::Horizontal, "this sentence is going to be larger than 100 chars so we need to throw an error because of what we have been told to do"));
     CHECK_THROWS(nb4.write(2, 1, 80, Direction::Horizontal, "this sentence is going to be overload the 100 chars"));
+    
+    CHECK_THROWS(nb4.write(-1, 0, 0, Direction::Horizontal, "something"));
+    CHECK_THROWS(nb4.write(0, -1, 0, Direction::Horizontal, "something"));
+    CHECK_THROWS(nb4.write(0, 0, -1, Direction::Horizontal, "something"));
+    CHECK_THROWS(nb4.write(0, -1, -1, Direction::Horizontal, "something"));
+    CHECK_THROWS(nb4.write(-1, -1, 0, Direction::Horizontal, "something"));
+    CHECK_THROWS(nb4.write(-1, 0, -1, Direction::Horizontal, "something"));
+    CHECK_THROWS(nb4.write(-1, -1, -1, Direction::Horizontal, "something"));
+
+    CHECK_THROWS(nb4.read(-1, 0, 0, Direction::Horizontal, 10));
+    CHECK_THROWS(nb4.read(0, -1, 0, Direction::Horizontal, 10));
+    CHECK_THROWS(nb4.read(0, 0, -1, Direction::Horizontal, 10));
+    CHECK_THROWS(nb4.read(0, -1, -1, Direction::Horizontal, 10));
+    CHECK_THROWS(nb4.read(-1, -1, 0, Direction::Horizontal, 10));
+    CHECK_THROWS(nb4.read(-1, 0, -1, Direction::Horizontal, 10));
+    CHECK_THROWS(nb4.read(-1, -1, -1, Direction::Horizontal, 10));
+    CHECK_THROWS(nb4.read(-1, -1, -1, Direction::Horizontal, -1));
+    CHECK_THROWS(nb4.read(0, 0, 0, Direction::Horizontal, -1));
 }
 TEST_CASE("erase function") {
     Notebook nb5;
@@ -77,4 +95,14 @@ TEST_CASE("erase function") {
     CHECK(nb5.read(0, 0, 0, Direction::Vertical, 30) == "Let's check the erase function");
     CHECK(nb5.read(0, 0, 0, Direction::Vertical, 20) == "~~~~~~~~~~~~~~~~~~~~");
     CHECK(nb5.read(0, 0, 20, Direction::Vertical, 10) == "e function");
+
+    CHECK_THROWS(nb5.erase(-1, 0, 0, Direction::Horizontal, 20));
+    CHECK_THROWS(nb5.erase(0, -1, 0, Direction::Horizontal, 20));
+    CHECK_THROWS(nb5.erase(0, 0, -1, Direction::Horizontal, 20));
+    CHECK_THROWS(nb5.erase(0, -1, -1, Direction::Horizontal, 20));
+    CHECK_THROWS(nb5.erase(-1, -1, 0, Direction::Horizontal, 20));
+    CHECK_THROWS(nb5.erase(-1, 0, -1, Direction::Horizontal, 20));
+    CHECK_THROWS(nb5.erase(-1, -1, -1, Direction::Horizontal, 20));
+    CHECK_THROWS(nb5.erase(-1, -1, -1, Direction::Horizontal, -1));
+    CHECK_THROWS(nb5.erase(0, 0, 0, Direction::Horizontal, -1));
 }
